@@ -104,4 +104,3 @@ supabase/
 ## Licencia
 
 Proyecto de demostración para ERP de centro comercial.
-# SistemaCCRedoma
