@@ -5,6 +5,25 @@ import { AdminDashboard } from './components/dashboards/AdminDashboard';
 import { LocalOwnerDashboard } from './components/dashboards/LocalOwnerDashboard';
 import { VisitanteDashboard } from './components/dashboards/VisitanteDashboard';
 
+function renderDashboard(roleName: string | undefined) {
+  switch (roleName) {
+    case 'CentroComercialAdmin':
+    case 'SystemDeveloper':
+      return <AdminDashboard />;
+    case 'LocalOwner':
+      return <LocalOwnerDashboard />;
+    case 'VisitanteExterno':
+      return <VisitanteDashboard />;
+    default:
+      return (
+        <div className="p-8 text-center text-red-600">
+          <h2 className="text-2xl font-bold">Error de Permisos</h2>
+          <p>Tu rol de usuario no es reconocido o no tiene un dashboard asignado.</p>
+        </div>
+      );
+  }
+}
+
 function AppContent() {
   const { user, profile, loading } = useAuth();
 
@@ -26,11 +45,8 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <main>
-        {profile.rol_nombre === 'CentroComercialAdmin' && <AdminDashboard />}
-        {profile.rol_nombre === 'LocalOwner' && <LocalOwnerDashboard />}
-        {profile.rol_nombre === 'VisitanteExterno' && <VisitanteDashboard />}
-        {profile.rol_nombre === 'SystemDeveloper' && <AdminDashboard />}
+      <main className="p-4 sm:p-6 lg:p-8">
+        {renderDashboard(profile.roles?.nombre_rol)}
       </main>
     </div>
   );
